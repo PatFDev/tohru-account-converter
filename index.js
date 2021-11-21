@@ -1,9 +1,12 @@
 const fs = require("fs");
-const logins = require("./logins.json");
+const path = require('path');
 
-fs.readFile("./logins.json", "utf8", (err, input) => {
+const tohruPath = path.resolve(process.env.APPDATA || process.env.HOME + 'Library/Application Support', "tohru-aio-v1")
+const logins = `${path.resolve(tohruPath)}\\logins.json`
+
+fs.readFile(logins, "utf8", (err, input) => {
   if (err) {
-    console.log("File read failed:", err);
+    console.log("❌  File read failed:", err);
     return;
   }
   const jsonString = JSON.parse(input);
@@ -15,7 +18,7 @@ fs.readFile("./logins.json", "utf8", (err, input) => {
   console.log("✔️  File Read Successfully");
   fs.writeFile("./output.txt", accounts, (err) => {
     if (err) {
-      console.log("File Write failed:", err);
+      console.log("❌  File Write failed:", err);
       return;
     }
     console.log("✔️  File Written Successfully");
